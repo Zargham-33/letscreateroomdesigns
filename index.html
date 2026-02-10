@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Dream Room Planner</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f0f0f0; }
+    #room { width: 600px; height: 400px; margin: 20px auto; border: 2px solid #333; position: relative; background: #fff; }
+    .furniture { width: 80px; height: 80px; position: absolute; cursor: grab; }
+    #furniture-panel { margin: 20px; }
+  </style>
+</head>
+<body>
+  <h1>My Dream Room Planner</h1>
+
+  <!-- Furniture Panel -->
+  <div id="furniture-panel">
+    <img src="https://i.ibb.co/fK4W8K9/bed.png" class="furniture-item" data-src="https://i.ibb.co/fK4W8K9/bed.png" width="80" height="80">
+    <img src="https://i.ibb.co/Y3YvD2G/table.png" class="furniture-item" data-src="https://i.ibb.co/Y3YvD2G/table.png" width="80" height="80">
+  </div>
+
+  <!-- Room -->
+  <div id="room" ondragover="event.preventDefault();" ondrop="dropFurniture(event)"></div>
+
+  <script>
+    const room = document.getElementById('room');
+    const furniturePanel = document.querySelectorAll('.furniture-item');
+
+    furniturePanel.forEach(item => {
+      item.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', e.target.dataset.src);
+      });
+    });
+
+    function dropFurniture(e) {
+      e.preventDefault();
+      const src = e.dataTransfer.getData('text/plain');
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'furniture';
+      img.style.left = (e.offsetX - 40) + 'px';
+      img.style.top = (e.offsetY - 40) + 'px';
+      img.draggable = true;
+      room.appendChild(img);
+    }
+  </script>
+</body>
+</html>
